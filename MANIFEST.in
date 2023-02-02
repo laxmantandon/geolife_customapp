@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include geolife_customapp *.css
+recursive-include geolife_customapp *.csv
+recursive-include geolife_customapp *.html
+recursive-include geolife_customapp *.ico
+recursive-include geolife_customapp *.js
+recursive-include geolife_customapp *.json
+recursive-include geolife_customapp *.md
+recursive-include geolife_customapp *.png
+recursive-include geolife_customapp *.py
+recursive-include geolife_customapp *.svg
+recursive-include geolife_customapp *.txt
+recursive-exclude geolife_customapp *.pyc
