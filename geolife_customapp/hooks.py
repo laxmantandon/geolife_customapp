@@ -106,23 +106,26 @@ app_license = "MIT"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#	"all": [
-#		"geolife_customapp.tasks.all"
-#	],
-#	"daily": [
-#		"geolife_customapp.tasks.daily"
-#	],
-#	"hourly": [
-#		"geolife_customapp.tasks.hourly"
-#	],
-#	"weekly": [
-#		"geolife_customapp.tasks.weekly"
-#	]
-#	"monthly": [
-#		"geolife_customapp.tasks.monthly"
-#	]
-# }
+scheduler_events = {
+    "cron": {
+		"0 10 * * *": ["geolife_customapp.geolife_customapp.sms.send_account_block_sms"]
+	}
+	# "all": [
+	# 	"geolife_customapp.tasks.all"
+	# ],
+	# "daily": [
+	# 	"geolife_customapp.tasks.daily"
+	# ],
+	# "hourly": [
+	# 	"geolife_customapp.tasks.hourly"
+	# ],
+	# "weekly": [
+	# 	"geolife_customapp.tasks.weekly"
+	# ],
+	# "monthly": [
+	# 	"geolife_customapp.tasks.monthly"
+	# ]
+}
 
 # Testing
 # -------
