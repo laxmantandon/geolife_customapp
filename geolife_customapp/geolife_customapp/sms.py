@@ -23,7 +23,9 @@ def send_account_block_sms():
                 WHERE
                     customer = %s AND company = %s
                     AND status <> 'Paid'
+                    AND is_return = 0
                     AND DATEDIFF(CURDATE(), DATEDIFF(CURDATE(), DATE_ADD(posting_date, INTERVAL 10 DAY))) >= 150
+                HAVING overdue > 0
                 """, (cust.name, company), as_dict=1)
 
                 
