@@ -13,8 +13,8 @@ def send_account_block_sms():
                     customer as party,
                     posting_date,
                     name as voucher_no,
-                    SUM(rounded_total) as closing,
-                    SUM(rounded_total) as overdue,
+                    SUM(outstanding_amount) as closing,
+                    SUM(outstanding_amount) as overdue,
                     DATEDIFF(CURDATE(), DATE_ADD(posting_date, INTERVAL 10 DAY)) due_days,
                     status,
                     (SELECT SUM(debit - credit) FROM `tabGL Entry` WHERE party = customer AND is_cancelled = 0 AND docstatus = 1) AS total_outstanding
