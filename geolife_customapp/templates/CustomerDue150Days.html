@@ -1,0 +1,59 @@
+<div class="page-break">
+	<div id="header-html" class="hidden-pdf">
+		{% if letter_head %}
+		<div class="letter-head text-center">{{ letter_head.content }}</div>
+		<hr style="height:2px;border-width:0;color:black;background-color:black;">
+		{% endif %}
+	</div>
+	<div id="footer-html" class="visible-pdf">
+		{% if letter_head.footer %}
+		<div class="letter-head-footer">
+			<hr style="border-width:0;color:black;background-color:black;padding-bottom:2px;">
+			{{ letter_head.footer }}
+		</div>
+		{% endif %}
+	</div>
+
+<!-- title -->
+{% if title %}
+<h2>{{ title }}</h2>
+<hr>
+{% endif %}
+{% if subtitle %}
+{{ subtitle }}
+<hr>
+{% endif %}
+<table class="table">
+	{% for key in filters %}
+	<tr>
+		<td>{{key}}</td>
+		<td>{{filters[key]}}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+
+<table class="table table-bordered">
+	<!-- heading -->
+	<thead>
+		<tr>
+		<th> # </th>
+		{% for col in columns %}
+			<th>{{ col.label }}</th>
+		{% endfor %}
+		</tr>
+	</thead>
+	<!-- body -->
+	<tbody>
+		{% for row in data %}
+			<tr style="height: 30px">
+			<td style="font-weight: bold"><span> {{ loop.index }} </span></td>
+			{% for col in columns %}
+				<td>{{row[col.fieldname]}}</td>
+			{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+</div>
