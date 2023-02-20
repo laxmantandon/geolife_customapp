@@ -19,8 +19,7 @@ def send_account_block_whatsapp():
         return
     
     try:
-        # customers = frappe.db.sql("SELECT name, mobile_no from tabCustomer where mobile_no is not null", as_dict=1)
-        customers = frappe.db.sql("SELECT name, customer_name, mobile_no, customer_primary_contact from tabCustomer where name = 'AMZ-CUST-0001'", as_dict=1)
+        customers = frappe.db.sql("SELECT name, mobile_no, customer_primary_contact from tabCustomer where mobile_no is not null", as_dict=1)
         company = 'Geolife Agritech India Private Limited'
         
         for cust in customers:
@@ -79,8 +78,8 @@ def send_account_block_whatsapp():
 
                 send_whatsapp_report(html, "Customer Due 150 Days", cust.customer_primary_contact, "150days", outstanding)
 
-                # doc = frappe.get_doc("Customer", cust.name)
-                # doc.add_comment("Comment", text=f"WHATSAPP - {sms} - Sent On {mobile_no}")
+                doc = frappe.get_doc("Customer", cust.name)
+                doc.add_comment("Comment", text=f"WHATSAPP for Account Block Notification Sent On {mobile_no}")
             
     except Exception as e:
         frappe.log_error(e, "whatsapp_for_account_block_log")
