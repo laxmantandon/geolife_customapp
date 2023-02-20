@@ -166,4 +166,4 @@ def send_whatsapp_report(html, document_caption, contact, wa_template, outstandi
         frappe.msgprint("Whatsapp Sent")
 
     except Exception as e:
-        frappe.log_error(f"error = {str(e)} req = {str(payload)}")
+        frappe.log_error(f"error = {str(e)}")
