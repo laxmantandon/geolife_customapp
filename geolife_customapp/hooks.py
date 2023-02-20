@@ -109,7 +109,7 @@ app_license = "MIT"
 scheduler_events = {
     "cron": {
 		"0 11 * * *": ["geolife_customapp.geolife_customapp.whatsapp.send_account_block_whatsapp"],
-		#"0 10 * * *": ["geolife_customapp.geolife_customapp.sms.send_account_block_sms"]
+		"0 10 * * *": ["geolife_customapp.geolife_customapp.sms.send_account_block_sms"]
 	}
 	# "all": [
 	# 	"geolife_customapp.tasks.all"
