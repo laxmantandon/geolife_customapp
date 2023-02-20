@@ -12,6 +12,11 @@ from frappe.utils import random_string
 
 
 def send_account_block_whatsapp():
+
+    send_whatsapp_for_account_block = frappe.db.get_single_value("Geolife Settings", "send_whatsapp_for_account_block")
+    
+    if send_whatsapp_for_account_block == 0:
+        return
     
     try:
         # customers = frappe.db.sql("SELECT name, mobile_no from tabCustomer where mobile_no is not null", as_dict=1)
