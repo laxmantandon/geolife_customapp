@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "send_whatsapp_for_account_block",
+  "send_whatsapp_for_cash_discount",
   "send_sms_for_account_block"
  ],
  "fields": [
@@ -21,12 +22,18 @@
    "fieldname": "send_sms_for_account_block",
    "fieldtype": "Check",
    "label": "Send SMS for Account Block"
+  },
+  {
+   "default": "0",
+   "fieldname": "send_whatsapp_for_cash_discount",
+   "fieldtype": "Check",
+   "label": "Send Whatsapp for Cash Discount"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-02-21 01:17:50.643087",
+ "modified": "2023-08-03 13:05:10.214829",
  "modified_by": "Administrator",
  "module": "Geolife CustomApp",
  "name": "Geolife Settings",

@@ -243,23 +243,29 @@
 	<thead>
 		<tr>
 			<th> # </th>
-			<th> Document No </th>
-			<th> Document Date </th>
-			<th> Over Due Amount </th>
-			<th> Over Due Days </th>
-			<th> Status </th>
+			<th> Invoice Date </th>
+			<th> Effetive Date </th>
+			<th> Bill No </th>
+			<th> Bill Amount </th>
+			<th> Pending Amount </th>
+			<th> No of Days </th>
+			<th> Cash Discount %</th>
+			<th> Applicable CD Amount </th>
 		</tr>
 	</thead>
 	<!-- body -->
 	<tbody>
 		{% for row in data %}
 		<tr style="height: 30px">
-			<td style="font-weight: bold; width:5%"><span>{{ loop.index if row.voucher_no else '' }}</span></td>
-			<td style="width:18%"><span> {{ row.voucher_no if row.voucher_no else row[0] }} </span></td>
-			<td style="width:18%"><span> {{ row.posting_date if row.posting_date else row[1]}} </span></td>
-			<td style="font-weight: bold; width:20%" class="text-right"><span> {{ frappe.format(row.overdue, {'fieldtype': 'Currency'}) if row.overdue else frappe.format(row[3], {'fieldtype': 'Currency'})}} </span></td>
-			<td style="width:18%"><span> {{ row.due_days if row.due_days else '' }} </span></td>
-			<td style="width:18%"><span> {{ row.status if row.status else ''}} </span></td>
+			<td style="font-weight: bold; width:5%"><span>{{ loop.index if row.reference_no else '' }}</span></td>
+			<td style="width:12%"><span> {{ row.posting_date if row.posting_date else row[0] }} </span></td>
+			<td style="width:18%"><span> {{ row.EffectiveDate if row.EffectiveDate else row[0] }} </span></td>
+			<td style="width:18%"><span> {{ row.reference_no if row.reference_no else row[0] }} </span></td>
+			<td style="width:18%"><span> {{ row.opening_amount if row.opening_amount else row[0] }} </span></td>
+			<td style="width:18%"><span> {{ row.closing_amount if row.closing_amount else row[1]}} </span></td>
+			<td style="width:18%"><span> {{ row.due_days if row.due_days else row[1]}} </span></td>
+			<td style="width:18%"><span> {{ row.cd_percent if row.cd_percent else '' }} </span></td>
+			<td style="width:18%"><span> {{ row.cd_amount if row.cd_amount else ''}} </span></td>
 		</tr>
 		{% endfor %}
 	</tbody>
