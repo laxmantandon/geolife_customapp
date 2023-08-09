@@ -376,9 +376,17 @@ def send_ledger_whatsapp():
                     "company": company,
                     "from_date": "2023-04-01",
                     "to_date": frappe.utils.today(),
+                    "account":[],
                     "party_type": "Customer",
                     "party": [cust.name],
-                    "party_name": cust.customer_name
+                    "party_name": cust.customer_name,
+                    "group_by": "Group by Voucher (Consolidated)",
+                    "cost_center":[],
+                    "branch":[],
+                    "project":[],
+                    "include_dimensions":1,
+                    "geo_show_taxes": 1,
+                    "geo_show_inventory": 1
                 }
             )
             report_data = frappe.desk.query_report.run(
@@ -394,7 +402,9 @@ def send_ledger_whatsapp():
                     "data": report_data["result"],
                     "title": "Statement of Accounts",
                     "columns": report_data["columns"],
-                    "letter_head": letter_head
+                    "letter_head": letter_head,
+                    "terms_and_conditions": False,
+                    "ageing": False,
                 }
             )
 
@@ -408,7 +418,7 @@ def send_ledger_whatsapp():
             doc.add_comment("Comment", text=f"WHATSAPP for Ledger Sent On {cust.mobile_no}")
         
     except Exception as e:
-        frappe.log_error(e, "whatsapp_for_ledger_log")
+        frappe.log_error(frappe.get_traceback(), "whatsapp_for_ledger_log")
 
 def send_ledger_whatsapp_report(html, document_caption, contact, wa_template, from_date, to_date):
     try:
