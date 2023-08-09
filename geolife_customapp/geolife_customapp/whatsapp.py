@@ -386,13 +386,15 @@ def send_ledger_whatsapp():
                     "project":[],
                     "include_dimensions":1,
                     "geo_show_taxes": 1,
-                    "geo_show_inventory": 1
+                    "geo_show_inventory": 1,
+                    "presentation_currency": ""
                 }
             )
             report_data = frappe.desk.query_report.run(
                 "General Ledger",
                 filters=filters
             )
+            report_data["result"].pop()
 
             letter_head = frappe.get_doc('Letter Head', 'geolife')
 
@@ -412,7 +414,7 @@ def send_ledger_whatsapp():
                 { "body": html, "css": get_print_style(), "title": "Statement of Accounts"}
             )
 
-            send_ledger_whatsapp_report(html, "Statement of Accounts", cust.customer_primary_contact, "ledger_statement_by_date", filter.get("from_date"), filter.get("to_date"))
+            send_ledger_whatsapp_report(html, "Statement of Accounts", cust.customer_primary_contact, "ledger_statement_by_date", filters.get("from_date"), filters.get("to_date"))
 
             doc = frappe.get_doc("Customer", cust.name)
             doc.add_comment("Comment", text=f"WHATSAPP for Ledger Sent On {cust.mobile_no}")
