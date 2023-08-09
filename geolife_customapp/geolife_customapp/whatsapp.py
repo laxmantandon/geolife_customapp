@@ -359,7 +359,7 @@ def send_cash_discount_whatsapp_report(html, document_caption, contact, wa_templ
     except Exception as e:
         frappe.log_error(f"error = {str(e)}")
 
-def send_cash_discount_whatsapp():
+def send_ledger_whatsapp():
 
     send_whatsapp_for_ledger = frappe.db.get_single_value("Geolife Settings", "send_whatsapp_for_ledger")
     
