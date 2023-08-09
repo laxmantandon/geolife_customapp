@@ -111,6 +111,7 @@ scheduler_events = {
 		"0 11 * * *": ["geolife_customapp.geolife_customapp.whatsapp.send_account_block_whatsapp"],
 		"0 10 * * *": ["geolife_customapp.geolife_customapp.sms.send_account_block_sms"],
 		"0 12 * * *": ["geolife_customapp.geolife_customapp.whatsapp.send_cash_discount_whatsapp"],
+		"0 01 5 * *": ["geolife_customapp.geolife_customapp.whatsapp.send_ledger_whatsapp"],
 	}
 	# "all": [
 	# 	"geolife_customapp.tasks.all"
