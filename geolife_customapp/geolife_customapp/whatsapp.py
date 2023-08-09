@@ -371,53 +371,54 @@ def send_ledger_whatsapp():
         company = 'Geolife Agritech India Private Limited'
         
         for cust in customers:
-            filters = frappe._dict(
-                {
-                    "company": company,
-                    "from_date": "2023-04-01",
-                    "to_date": frappe.utils.today(),
-                    "account":[],
-                    "party_type": "Customer",
-                    "party": [cust.name],
-                    "party_name": cust.customer_name,
-                    "group_by": "Group by Voucher (Consolidated)",
-                    "cost_center":[],
-                    "branch":[],
-                    "project":[],
-                    "include_dimensions":1,
-                    "geo_show_taxes": 1,
-                    "geo_show_inventory": 1,
-                    "presentation_currency": ""
-                }
-            )
-            report_data = frappe.desk.query_report.run(
-                "General Ledger",
-                filters=filters
-            )
-            report_data["result"].pop()
+            if cust.get("mobile_no"):
+                filters = frappe._dict(
+                    {
+                        "company": company,
+                        "from_date": "2023-04-01",
+                        "to_date": frappe.utils.today(),
+                        "account":[],
+                        "party_type": "Customer",
+                        "party": [cust.name],
+                        "party_name": cust.customer_name,
+                        "group_by": "Group by Voucher (Consolidated)",
+                        "cost_center":[],
+                        "branch":[],
+                        "project":[],
+                        "include_dimensions":1,
+                        "geo_show_taxes": 1,
+                        "geo_show_inventory": 1,
+                        "presentation_currency": ""
+                    }
+                )
+                report_data = frappe.desk.query_report.run(
+                    "General Ledger",
+                    filters=filters
+                )
+                report_data["result"].pop()
 
-            letter_head = frappe.get_doc('Letter Head', 'geolife')
+                letter_head = frappe.get_doc('Letter Head', 'geolife')
 
-            html = frappe.render_template('templates/GeneralLedger.html',
-                {
-                    "filters": filters,
-                    "data": report_data["result"],
-                    "title": "Statement of Accounts",
-                    "columns": report_data["columns"],
-                    "letter_head": letter_head,
-                    "terms_and_conditions": False,
-                    "ageing": False,
-                }
-            )
+                html = frappe.render_template('templates/GeneralLedger.html',
+                    {
+                        "filters": filters,
+                        "data": report_data["result"],
+                        "title": "Statement of Accounts",
+                        "columns": report_data["columns"],
+                        "letter_head": letter_head,
+                        "terms_and_conditions": False,
+                        "ageing": False,
+                    }
+                )
 
-            html = frappe.render_template('frappe/www/printview.html',
-                { "body": html, "css": get_print_style(), "title": "Statement of Accounts"}
-            )
+                html = frappe.render_template('frappe/www/printview.html',
+                    { "body": html, "css": get_print_style(), "title": "Statement of Accounts"}
+                )
 
-            send_ledger_whatsapp_report(html, "Statement of Accounts", cust.customer_primary_contact, "ledger_statement_by_date", filters.get("from_date"), filters.get("to_date"))
+                send_ledger_whatsapp_report(html, "Statement of Accounts", cust.customer_primary_contact, "ledger_statement_by_date", filters.get("from_date"), filters.get("to_date"))
 
-            doc = frappe.get_doc("Customer", cust.name)
-            doc.add_comment("Comment", text=f"WHATSAPP for Ledger Sent On {cust.mobile_no}")
+                doc = frappe.get_doc("Customer", cust.name)
+                doc.add_comment("Comment", text=f"WHATSAPP for Ledger Sent On {cust.mobile_no}")
         
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "whatsapp_for_ledger_log")
