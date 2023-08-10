@@ -367,7 +367,7 @@ def send_ledger_whatsapp():
         return
     
     try:
-        customers = frappe.db.sql("SELECT name, customer_name, mobile_no, customer_primary_contact from tabCustomer where mobile_no is not null and mobile_no <> '' and name = 'AMZ-CUST-0001'", as_dict=1)
+        customers = frappe.db.sql("SELECT name, customer_name, mobile_no, customer_primary_contact from tabCustomer where mobile_no is not null and mobile_no <> '' and in ('AMZ-CUST-0001', 'MP-CUST-0815')", as_dict=1)
         company = 'Geolife Agritech India Private Limited'
         
         for cust in customers:
@@ -386,8 +386,9 @@ def send_ledger_whatsapp():
                         "branch":[],
                         "project":[],
                         "include_dimensions":1,
-                        "geo_show_taxes": 1,
-                        "geo_show_inventory": 1,
+                        "geo_show_taxes": 0,
+                        "geo_show_inventory": 0,
+                        "geo_show_remarks": 1,
                         "presentation_currency": ""
                     }
                 )
