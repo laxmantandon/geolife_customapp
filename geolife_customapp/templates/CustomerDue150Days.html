@@ -233,7 +233,11 @@
 <hr>
 {% endif %}
 	{% for key in filters %}
+		{% if key == "as on Date" %}
+		<h6> {{key |capitalize }} : {{frappe.format(filters[key], {'fieldtype': 'Date'})}}</h6>
+		{% else %}
 		<h6>{{key |capitalize }} : {{filters[key]}}</h6>
+		{% endif %}
 	{% endfor %}
 </table>
 
@@ -243,25 +247,44 @@
 	<thead>
 		<tr>
 			<th> # </th>
-			<th> Document No </th>
-			<th> Document Date </th>
-			<th> Over Due Amount </th>
-			<th> Over Due Days </th>
-			<th> Status </th>
+			{% for t in columns %}
+			<th> {{ t.label }} </th>
+			{% endfor%}
+			
 		</tr>
 	</thead>
 	<!-- body -->
 	<tbody>
+		{% set vars = {'total': 0} %}
+
 		{% for row in data %}
-		<tr style="height: 30px">
-			<td style="font-weight: bold; width:5%"><span>{{ loop.index if row.voucher_no else '' }}</span></td>
-			<td style="width:18%"><span> {{ row.voucher_no if row.voucher_no else row[0] }} </span></td>
-			<td style="width:18%"><span> {{ row.posting_date if row.posting_date else row[1]}} </span></td>
-			<td style="font-weight: bold; width:20%" class="text-right"><span> {{ frappe.format(row.overdue, {'fieldtype': 'Currency'}) if row.overdue else frappe.format(row[3], {'fieldtype': 'Currency'})}} </span></td>
-			<td style="width:18%"><span> {{ row.due_days if row.due_days else '' }} </span></td>
-			<td style="width:18%"><span> {{ row.status if row.status else ''}} </span></td>
-		</tr>
+			{% if row.posting_date %}
+			{% if vars.update({'total': vars.total+ row.outstanding if row.outstanding else 0}) %} {% endif %}
+			<tr style="height: 30px">
+				<td style="font-weight: bold; width:5%"><span>{{ loop.index if row.voucher_no else '' }}</span></td>
+				<td style="width:18%"><span> {{ frappe.format(row.posting_date, {'fieldtype': 'Date'}) }}</span></td>
+				<td style="width:18%"><span> {{ frappe.format(row.effective_date, {'fieldtype': 'Date'}) if row.effective_date else frappe.format(row.posting_date, {'fieldtype': 'Date'})  if row.posting_date else ''}} </span></td>
+				<td style="width:18%"><span> {{ row.voucher_type if row.voucher_type else row[0] }} </span></td>
+				<td style="width:18%"><span> {{ row.voucher_no if row.voucher_no else row[0] }} </span></td>
+
+				<td style="font-weight: bold; width:20%" class="text-right"><span> {{ row.outstanding if row.outstanding else 0 }} </span></td>
+				<td style="width:18%"><span> {{ row.age if row.age else '' }} </span></td>
+				<td style="width:18%"><span> {{ row.status if row.status else ''}} </span></td>
+			</tr>
+			{% endif %}
 		{% endfor %}
+
+		<tr style="height: 30px">
+			<td style="font-weight: bold; width:5%"><span></span></td>
+			<td style="width:18%"><span><b>Total</b></span></td>
+			<td style="width:18%"><span>  </span></td>
+			<td style="width:18%"><span>  </span></td>
+			<td style="width:18%"><span>  </span></td>
+
+			<td style="font-weight: bold; width:20%" class="text-right"><span> {{ vars.total }} </span></td>
+			<td style="width:18%"><span>  </span></td>
+			<td style="width:18%"><span>  </span></td>
+		</tr>
 	</tbody>
 </table>
 
