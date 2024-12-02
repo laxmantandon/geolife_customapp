@@ -108,10 +108,11 @@ app_license = "MIT"
 
 scheduler_events = {
     "cron": {
-		"0 12 * * wed": ["geolife_customapp.geolife_customapp.whatsapp.send_account_block_whatsapp"],
-		"0 10 * * *": ["geolife_customapp.geolife_customapp.sms.send_account_block_sms"],
-		"0 12 * * sat": ["geolife_customapp.geolife_customapp.whatsapp.send_cash_discount_whatsapp"],
-		"0 09 5 * *": ["geolife_customapp.geolife_customapp.whatsapp.send_ledger_whatsapp"],
+		"0 06 * * wed": ["geolife_customapp.geolife_customapp.whatsapp.send_account_block_whatsapp"],
+		"0 06 * * *": ["geolife_customapp.geolife_customapp.sms.send_account_block_sms"],
+		"0 06 * * sat": ["geolife_customapp.geolife_customapp.whatsapp.send_cash_discount_whatsapp"],
+		"0 06 5 * *": ["geolife_customapp.geolife_customapp.whatsapp.send_ledger_whatsapp"],
+		"0 06 * * *": ["geolife_customapp.geolife_customapp.whatsapp.send_stock_balance_automail_whatsapp_for_sales_person"],
 	}
 	# "all": [
 	# 	"geolife_customapp.tasks.all"

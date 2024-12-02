@@ -115,6 +115,61 @@ def get_general_ledger_pdf(customer, from_date, to_date):
 
 
 @frappe.whitelist()
+def get_accounts_Receiveable_pdf(customer):
+    
+    filters = frappe._dict(
+        {"company":"Geolife Agritech India Private Limited",
+         "report_date":frappe.utils.nowdate(),
+         "customer":customer,
+         "ageing_based_on":"Effective Date",
+         "range1":30,
+         "range2":60,
+         "branch":[],
+         "range3":90,
+         "range4":120,
+         "range5":150,
+         "range6":180,
+         "range7":365,
+         "customer_name":frappe.db.get_value("Customer", customer, "customer_name")}
+    )
+    report_data = frappe.desk.query_report.run(
+        "Accounts Receivable",
+        filters=filters
+    )
+    report_data["result"].pop()
+
+    letter_head = frappe.get_doc('Letter Head', 'geolife')
+
+    html = frappe.render_template('templates/AccountsReceivable.html',
+        {
+            "filters": filters,
+            "report":report_data,
+            "data": report_data["result"],
+            "title": "Statement of Accounts",
+            "columns": report_data["columns"],
+            "letter_head": letter_head,
+            "terms_and_conditions": False,
+            "ageing": False,
+        }
+    )
+
+    html = frappe.render_template('frappe/www/printview.html',
+        { "body": html, "css": get_print_style(), "title": "Statement of Accounts"}
+    )
+
+    pdf_data = get_pdf(html)
+    unique_hash = frappe.generate_hash()[:10]
+    s_file_name = f"{unique_hash}.pdf"
+    folder_name = create_folder("Whatsapp", "Home")
+    saved_file = save_file(s_file_name, pdf_data, '', '', folder=folder_name, is_private=0)
+    s_document_link = f"{frappe.utils.get_url()}/files/{saved_file.file_name}"
+
+    return s_document_link
+
+
+
+
+@frappe.whitelist()
 def get_confirmation_of_accounts_pdf(customer, from_date, to_date):
     
     filters = frappe._dict(
